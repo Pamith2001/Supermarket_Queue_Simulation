@@ -38,4 +38,21 @@ def customer(env, name, cashiers):
         
         # print(f'{name} leaves at {env.now:.2f}')
 
+# --- 3. Setup (Customer Generator) ---
+def setup(env, num_cashiers, avg_service_time, avg_arrival_interval):
+    """
+    This process sets up the environment and generates customers.
+    """
+    # cashier resource represents the group of checkout counters
+    cashiers = simpy.Resource(env, capacity=num_cashiers)
 
+    customer_id = 0
+    # Keep generating customers while the simulation runs
+    while True:
+        # Simulate realistic arrival intervals 
+        # We use an exponential distribution (Poisson process)
+        yield env.timeout(random.expovariate(1.0 / avg_arrival_interval))
+        
+        customer_id += 1
+        # Start the 'customer' process for the new arrival
+        env.process(customer(env, f'Customer {customer_id}', cashiers))
