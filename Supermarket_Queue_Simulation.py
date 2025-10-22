@@ -78,3 +78,18 @@ env.process(setup(env, NUM_CASHIERS, AVG_SERVICE_TIME, AVG_ARRIVAL_INTERVAL))
 
 # Run the simulation
 env.run(until=SIM_TIME)
+
+# --- 5. Analyze and Print Results ---
+print('--------------------------------------')
+print(f'Simulation finished at {env.now:.2f} minutes.')
+
+if wait_times:
+    avg_wait = statistics.mean(wait_times)
+    max_wait = max(wait_times)
+    total_customers = len(wait_times)
+    
+    print(f'Total customers served: {total_customers}')
+    print(f'Average wait time: {avg_wait:.2f} minutes')
+    print(f'Maximum wait time: {max_wait:.2f} minutes')
+else:
+    print('No customers were served in the simulation time.')
