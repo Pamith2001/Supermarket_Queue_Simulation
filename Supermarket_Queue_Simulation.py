@@ -56,3 +56,25 @@ def setup(env, num_cashiers, avg_service_time, avg_arrival_interval):
         customer_id += 1
         # Start the 'customer' process for the new arrival
         env.process(customer(env, f'Customer {customer_id}', cashiers))
+
+# --- 4. Run the Simulation ---
+print(f'--- Supermarket Queue Simulation ---')
+print(f'Parameters:')
+print(f'  Cashiers: {NUM_CASHIERS}')
+print(f'  Avg. Arrival Interval: {AVG_ARRIVAL_INTERVAL} min')
+print(f'  Avg. Service Time: {AVG_SERVICE_TIME} min')
+print(f'  Simulation Time: {SIM_TIME} min')
+print('--------------------------------------')
+print('Running simulation...')
+
+# Set the random seed
+random.seed(RANDOM_SEED)
+
+# Create a SimPy environment
+env = simpy.Environment()
+
+# Start the setup process
+env.process(setup(env, NUM_CASHIERS, AVG_SERVICE_TIME, AVG_ARRIVAL_INTERVAL))
+
+# Run the simulation
+env.run(until=SIM_TIME)
